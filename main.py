@@ -179,6 +179,10 @@ async def tips(ctx):
 async def roll(ctx):
     await ctx.send(random.randint(1 , 101))
 
+@client.command(name='2b')
+async def _2b(ctx):
+    await ctx.send("To be, or not to be, that is the question: Whether tis nobler in the mind to suffer The slings and arrows of outrageous fortune, or to take arms against a sea of troubles and by opposing, end them")
+
 @client.command()
 async def yn(ctx):
     o = random.randint(1 , 1001)
