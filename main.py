@@ -1,7 +1,6 @@
 import discord
 import os
 import random
-from keep_alive import keep_alive
 from discord.ext import tasks, commands
 
 songs = ["The sun, the moon, the stars",
@@ -237,5 +236,4 @@ async def before_water():
 water.start()
 
 
-keep_alive()
 client.run(os.getenv("Key"))
