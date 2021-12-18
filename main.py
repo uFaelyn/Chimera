@@ -62,7 +62,7 @@ async def on_message(message):
             return m.channel == mc and not m.author == client.user
 
         msg = await client.wait_for("message", check=check)
-        await mc.send(f"Hello {msg}!")
+        await mc.send("Hello {.content}!".format(msg))
 
     if message.channel.id == 909685766244945921 or "@everyone" in message.content:
         print("Success", "\n", message.content)
