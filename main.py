@@ -25,6 +25,7 @@ client = commands.Bot(command_prefix="-",
                       activity=discord.Activity(type=discord.ActivityType.listening, name=poiu))
 
 tiktok_beatmaps = ["virginity syndrome"]
+spamTriggers = ["@everyone", "@here"]
 
 
 @client.event
@@ -64,8 +65,8 @@ async def on_message(message):
         mesg = await client.wait_for("message", check=check)
         await mc.send(f"Hello {mesg.content}!")
 
-    if message.channel.id == 909685766244945921 or "@everyone" in message.content:
-        print("Success", "\n", message.content)
+    if (mc.id == 909685766244945921) or (any(word in msg for word in spamTriggers)):
+        print("Success", "\n", msg)
         if len(message.author.roles) <= 2:
             await message.author.ban(reason="Softbanned bozo")
             await message.guild.unban(discord.Object(message.author.id))
