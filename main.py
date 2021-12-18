@@ -66,7 +66,6 @@ async def on_message(message):
     if msgl.startswith('hello chimera') or msgl.startswith('hi chimera'):
         channel = message.channel
         await channel.send('Hello! What is your name?')
-        print('Check 1')
 
         def check(m):
             return m.channel == channel and not m.author == client.user
