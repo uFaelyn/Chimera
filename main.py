@@ -61,7 +61,19 @@ async def on_message(message):
 
     if 'where' in msgl and 'skin' in msgl:
         await mc.send('Do !skin in <#898404919164403732> to get Davolafs skin')
-    
+
+
+    if msgl.startswith('hello chimera') or msgl.startswith('hi chimera'):
+        channel = message.channel
+        await channel.send('Hello! What is your name?')
+        print('Check 1')
+
+        def check(m):
+            return m.channel == channel and not m.author == client.user
+
+        msg = await client.wait_for('message' , check=check)
+        await channel.send('Hello {.content}!'.format(msg))
+
     if message.channel.id == 909685766244945921 or '@everyone' in message.content:
         print('Success' , "\n" , message.content)
         if len(message.author.roles) <= 2:
@@ -82,7 +94,6 @@ async def on_message(message):
 
             else:
               return
-    
     await client.process_commands(message)
 
 @client.command()
