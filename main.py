@@ -18,11 +18,11 @@ songs = ["The sun, the moon, the stars",
          "Yomi Yori",
          "Freedom Dive"]
 
-poiu = random.choice(songs)
+Song = random.choice(songs)
 
 client = commands.Bot(command_prefix="-",
                       help_command=None,
-                      activity=discord.Activity(type=discord.ActivityType.listening, name=poiu))
+                      activity=discord.Activity(type=discord.ActivityType.listening, name=Song))
 
 tiktok_beatmaps = ["virginity syndrome"]
 spamTriggers = ["@everyone", "@here"]
@@ -32,7 +32,7 @@ spamTriggers = ["@everyone", "@here"]
 async def on_ready():
     print(f"We have logged in as {client.user}")
     poiu = random.choice(songs)
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=poiu))
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=Song))
 
     bert = client.get_channel(898815070207877133)
     await bert.send("I have come online once more")
@@ -45,25 +45,28 @@ async def on_message(message):
 
     mc = message.channel
     msg = message.content
-    msgl = message.content.lower()
+    msgL = message.content.lower()
 
     if "727" in msg:
         await mc.send("WYSI")
 
-    if (any(word in msg for word in tiktok_beatmaps)) or ("where" in msgl and "maps" in msgl):
+    if (any(word in msg for word in tiktok_beatmaps)) or ("where" in msgL and "maps" in msgL):
         await mc.send("All of the beatmaps are very accessible if you read the channel names and use any form of problem solving. <#810996735274254337> Good day :D")
 
-    if "where" in msgl and "skin" in msgl:
+    if ("where" in msgL) and ("skin" in msgL):
         await mc.send("Do !skin in <#898404919164403732> to get Davolafs skin")
 
-    if msgl.startswith("hello chimera") or msgl.startswith("hi chimera"):
+    if (msgL.startswith("hello chimera")) or (msgL.startswith("hi chimera")):
         await mc.send("Hello! What is your name?")
 
         def check(m):
-            return m.channel == mc and not m.author == client.user
+                return m.channel == mc and not m.author == client.user
 
-        mesg = await client.wait_for("message", check=check)
-        await mc.send(f"Hello {mesg.content}!")
+        nameMsg = await client.wait_for("message", check=check)
+        if any(word in spamTriggers for word in nameMsg.content):
+                return
+        else:
+                await mc.send(f"Hello {nameMsg.content}!")
 
     if (mc.id == 909685766244945921) or (any(word in msg for word in spamTriggers)):
         print("Success", "\n", msg)
@@ -85,9 +88,9 @@ async def on_message(message):
 
 @client.command()
 async def shuffle(ctx):
-    poiu = random.choice(songs)
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=str(poiu)))
-    await ctx.send(f"I am now listening to: {poiu}")
+    shuffleSong = random.choice(songs)
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=str(shuffleSong)))
+    await ctx.send(f"I am now listening to: {shuffleSong}")
 
 
 @client.command()
@@ -115,21 +118,22 @@ async def help(ctx):
 @client.command()
 async def act(ctx, arg, activity):
     if ctx.author.id == 591047383044063244:
-        if arg == "playing":
+        if arg.lower == "playing":
             await client.change_presence(activity=discord.Game(name=str(activity)))
             await ctx.send(f"My activity has been changed to 'Playing {activity}'")
 
-        elif arg == "listening":
+        elif arg.lower == "listening":
             await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=str(activity)))
             await ctx.send(f"My activity has been changed to 'Listening to {activity}'")
 
-        elif arg == "streaming":
+        elif arg.lower == "streaming":
             await client.change_presence(activity=discord.Streaming(name=str(activity), url="https://www.twitch.tv/sevendeadlywinds"))
             await ctx.send(f"My activity has been changed to 'Streaming {activity}'")
 
-        elif arg == "watching":
+        elif arg.lower == "watching":
             await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=str(activity)))
             await ctx.send(f"My activity has been changed to 'Watching {activity}'")
+
         else:
             await ctx.send("Invalid Syntax Bozo")
 
@@ -170,13 +174,24 @@ async def better(ctx):
 async def tips(ctx):
     embed = discord.Embed(title="Getting better at osu!", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                           description="So, you want to get better at osu? Congratulations.. Here are some common mistakes I see many new players make", color=0x27005e)
+
+                          
     embed.set_author(name="Made by: Wind#0629", url="https://twitter.com/WindsDeadly",
                      icon_url="https://imgur.com/t/osu/ZcvGtex")
-    embed.add_field(name="God Complex", value="This is something largely seen in 2 phases. The first day, and the time when your rank is around 100k. **Stop asking** 'Is ____ good for <insert playtime or rank here>' because it is likely to be entirely normal.", inline=False)
-    embed.add_field(name="Overcomplicating the game.", value="I cannot stress this enough. **You are playing a game about clicking circles**. Stop overcomplicating the game, and just play. Skillsets exist but you can focus on that when you get better at the fundementals", inline=False)
+
+    embed.add_field(name="God Complex", 
+                    value="This is something largely seen in 2 phases. The first day, and the time when your rank is around 100k. **Stop asking** 'Is ____ good for <insert playtime or rank here>' because it is likely to be entirely normal.", inline=False)
+
+    embed.add_field(name="Overcomplicating the game.", 
+                    value="I cannot stress this enough. **You are playing a game about clicking circles**. Stop overcomplicating the game, and just play. Skillsets exist but you can focus on that when you get better at the fundementals", inline=False)
+
     embed.add_field(name="Trying ridiculous maps.",
                     value="Stop thinking retry spamming 7 stars will make you any better. Challenge yourself, but do not instantly go to 7 stars without even passing a 5 star.", inline=False)
-    embed.add_field(name="**Disclaimer**", value="Remember: **This is focused towards new players** so if you do not agree with something, you are either the type of player I am talking about-- or an actually decent player.", inline=False)
+
+    embed.add_field(name="**Disclaimer**", 
+                    value="Remember: **This is focused towards new players** so if you do not agree with something, you are either the type of player I am talking about-- or an actually decent player.", inline=False)
+
+
     embed.set_footer(
         text=f"Information requested by: {ctx.author.display_name}")
     await ctx.send(embed=embed)
