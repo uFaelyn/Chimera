@@ -162,6 +162,8 @@ async def rps(ctx, arg):
             await ctx.send(f"I chose {comp}, You win!")
         else:
             await ctx.send(f"I chose {comp}, I win!")
+    elif ctx.author.id == 591047383044063244:
+            await ctx.sent(f"I chose {comp}- Oh its you Wind... You win :/")
 
 
 @client.command()
