@@ -240,8 +240,8 @@ async def yn(ctx):
     if o in range(901, 1001):
         await ctx.send("Always")
 
-@client.listen()
-async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
+@client.event()
+async def on_command_error(ctx, error):
 
         if isinstance(error, commands.CommandNotFound):
                 return
