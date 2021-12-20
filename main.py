@@ -18,11 +18,11 @@ songs = ["The sun, the moon, the stars",
          "Yomi Yori",
          "Freedom Dive"]
 
-Song = random.choice(songs)
+shuffleSong = random.choice(songs)
 
 client = commands.Bot(command_prefix="-",
                       help_command=None,
-                      activity=discord.Activity(type=discord.ActivityType.listening, name=Song))
+                      activity=discord.Activity(type=discord.ActivityType.listening, name=shuffleSong))
 
 tiktok_beatmaps = ["virginity syndrome"]
 spamTriggers = ["@everyone", "@here"]
@@ -32,7 +32,7 @@ spamTriggers = ["@everyone", "@here"]
 async def on_ready():
     print(f"We have logged in as {client.user}")
     poiu = random.choice(songs)
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=Song))
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=shuffleSong))
 
     bert = client.get_channel(898815070207877133)
     await bert.send("I have come online once more")
@@ -239,6 +239,27 @@ async def yn(ctx):
         await ctx.send("Never")
     if o in range(901, 1001):
         await ctx.send("Always")
+
+@client.listen()
+async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
+
+        if isinstance(error, commands.CommandNotFound):
+                return
+        
+        elif isinstance(error, commands.CommandOnCooldown):
+                error_message = f'This command is on cooldown!'
+        
+        elif isinstance(error, commands.MissingPermissions):
+                error_message = f'You do not have permission to use this command!'
+        
+        elif isinstance(error, commands.UserInputError):
+                error_message = f'You did that wrong bozo.'
+
+        else:
+                error_message = f'Something went wrong.. but Im not sure what'
+
+        ctx.send(error_message)
+
 
 
 @tasks.loop(hours=1)
