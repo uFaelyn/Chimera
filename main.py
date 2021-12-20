@@ -125,19 +125,19 @@ async def help(ctx):
 @client.command()
 async def act(ctx, arg, activity):
     if ctx.author.id == 591047383044063244:
-        if arg.lower == "playing":
+        if arg.lower() == "playing":
             await client.change_presence(activity=discord.Game(name=str(activity)))
             await ctx.send(f"My activity has been changed to 'Playing {activity}'")
 
-        elif arg.lower == "listening":
+        elif arg.lower() == "listening":
             await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=str(activity)))
             await ctx.send(f"My activity has been changed to 'Listening to {activity}'")
 
-        elif arg.lower == "streaming":
+        elif arg.lower() == "streaming":
             await client.change_presence(activity=discord.Streaming(name=str(activity), url="https://www.twitch.tv/sevendeadlywinds"))
             await ctx.send(f"My activity has been changed to 'Streaming {activity}'")
 
-        elif arg.lower == "watching":
+        elif arg.lower() == "watching":
             await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=str(activity)))
             await ctx.send(f"My activity has been changed to 'Watching {activity}'")
 
