@@ -259,7 +259,7 @@ async def on_command_error(ctx, error):
         else:
                 error_message = f'Something went wrong.. but Im not sure what'
 
-        ctx.send(error_message)
+        await ctx.send(error_message)
 
 
 
