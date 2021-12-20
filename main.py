@@ -145,6 +145,9 @@ async def act(ctx, arg, activity):
 async def rps(ctx, arg):
     poss = ["rock", "paper", "scissors"]
     comp = random.choice(poss)
+    if ctx.author.id == 591047383044063244:
+        await ctx.sent(f"I chose {comp}- Oh its you Wind... You win :/")
+
     if arg == comp:
         await ctx.send("Draw!")
     elif arg == "rock":
@@ -162,7 +165,8 @@ async def rps(ctx, arg):
             await ctx.send(f"I chose {comp}, You win!")
         else:
             await ctx.send(f"I chose {comp}, I win!")
-    elif ctx.author.id == 591047383044063244:
+
+    if ctx.author.id == 591047383044063244:
             await ctx.sent(f"I chose {comp}- Oh its you Wind... You win :/")
 
 
