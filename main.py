@@ -2,6 +2,7 @@ import discord
 import os
 import random
 from discord.ext import tasks, commands
+from time import time
 
 songs = ["The sun, the moon, the stars",
          "Painters of the Tempest",
@@ -60,16 +61,22 @@ async def on_message(message):
         await mc.send("Hello! What is your name?")
 
         def check(m):
-                return m.channel == mc and not m.author == client.user
+            return m.channel == mc and not m.author == client.user
 
         nameMsg = await client.wait_for("message", check=check)
         if any(word in spamTriggers for word in nameMsg.content):
-                return
+            return
         else:
-                await mc.send(f"Hello {nameMsg.content}!")
+            await mc.send(f"Hello {nameMsg.content}!")
 
     if (mc.id == 909685766244945921) or (any(word in msg for word in spamTriggers)):
-        print("Success", "\n", msg)
+        try:
+            with open("../softbans.log", "a", encoding="utf8") as file:
+                file.write(str(time()) + " ||| MESSAGE BEGIN ||| " +
+                           msg + " ||| MESSAGE END |||")
+        except:
+            print("Could not open the softban logging file!")
+
         if len(message.author.roles) <= 2:
             await message.author.ban(reason="Softbanned bozo")
             await message.guild.unban(discord.Object(message.author.id))
@@ -150,7 +157,7 @@ async def rps(ctx, arg):
 
     elif arg.lower() == comp:
         await ctx.send("Draw!")
-    
+
     elif arg.lower() == "rock":
         if comp == "scissors":
             await ctx.send(f"I chose {comp}, You win!")
@@ -168,7 +175,7 @@ async def rps(ctx, arg):
             await ctx.send(f"I chose {comp}, I win!")
 
     else:
-            await ctx.send(f"You did that wrong.. its rock, paper, or scissors bozo.")
+        await ctx.send(f"You did that wrong.. its rock, paper, or scissors bozo.")
 
 
 @client.command()
@@ -182,22 +189,20 @@ async def tips(ctx):
     embed = discord.Embed(title="Getting better at osu!", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                           description="So, you want to get better at osu? Congratulations.. Here are some common mistakes I see many new players make", color=0x27005e)
 
-                          
     embed.set_author(name="Made by: Wind#0629", url="https://twitter.com/WindsDeadly",
                      icon_url="https://imgur.com/t/osu/ZcvGtex")
 
-    embed.add_field(name="God Complex", 
+    embed.add_field(name="God Complex",
                     value="This is something largely seen in 2 phases. The first day, and the time when your rank is around 100k. **Stop asking** 'Is ____ good for <insert playtime or rank here>' because it is likely to be entirely normal.", inline=False)
 
-    embed.add_field(name="Overcomplicating the game.", 
+    embed.add_field(name="Overcomplicating the game.",
                     value="I cannot stress this enough. **You are playing a game about clicking circles**. Stop overcomplicating the game, and just play. Skillsets exist but you can focus on that when you get better at the fundementals", inline=False)
 
     embed.add_field(name="Trying ridiculous maps.",
                     value="Stop thinking retry spamming 7 stars will make you any better. Challenge yourself, but do not instantly go to 7 stars without even passing a 5 star.", inline=False)
 
-    embed.add_field(name="**Disclaimer**", 
+    embed.add_field(name="**Disclaimer**",
                     value="Remember: **This is focused towards new players** so if you do not agree with something, you are either the type of player I am talking about-- or an actually decent player.", inline=False)
-
 
     embed.set_footer(
         text=f"Information requested by: {ctx.author.display_name}")
@@ -245,26 +250,27 @@ async def yn(ctx):
     if o in range(901, 1001):
         await ctx.send("Always")
 
+
 @client.event
 async def on_command_error(ctx, error):
 
-        if isinstance(error, commands.CommandNotFound):
-                return
-        
-        elif isinstance(error, commands.CommandOnCooldown):
-                error_message = f'This command is on cooldown!'
-        
-        elif isinstance(error, commands.MissingPermissions):
-                error_message = f'You do not have permission to use this command!'
-        
-        elif isinstance(error, commands.UserInputError):
-                error_message = f'You did that wrong bozo.'
+    if isinstance(error, commands.CommandNotFound):
+        return
 
-        else:
-                error_message = f'Something went wrong.. but Im not sure what'
+    elif isinstance(error, commands.CommandOnCooldown):
+        error_message = f"This command is on cooldown!"
 
-        await ctx.send(error_message)
+    elif isinstance(error, commands.MissingPermissions):
+        error_message = f"You do not have permission to use this command!"
 
+    elif isinstance(error, commands.UserInputError):
+        error_message = f"You did that wrong bozo."
+
+    else:
+        error_message = f"Something went wrong.. but I'm not sure what"
+        print(error)
+
+    await ctx.send(error_message)
 
 
 @tasks.loop(hours=1)
