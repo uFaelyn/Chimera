@@ -168,7 +168,7 @@ async def rps(ctx, arg):
             await ctx.send(f"I chose {comp}, I win!")
 
     else:
-            await ctx.sent(f"You did that wrong.. its rock, paper, or scissors bozo.")
+            await ctx.send(f"You did that wrong.. its rock, paper, or scissors bozo.")
 
 
 @client.command()
