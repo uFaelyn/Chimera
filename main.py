@@ -148,23 +148,27 @@ async def rps(ctx, arg):
     if ctx.author.id == 591047383044063244:
         await ctx.send(f"I chose {comp}- Oh its you Wind... You win :/")
 
-    if arg == comp:
+    elif arg.lower == comp:
         await ctx.send("Draw!")
-    elif arg == "rock":
+    
+    elif arg.lower == "rock":
         if comp == "scissors":
             await ctx.send(f"I chose {comp}, You win!")
         else:
             await ctx.send(f"I chose {comp}, I win!")
-    elif arg == "paper":
+    elif arg.lower == "paper":
         if comp == "rock":
             await ctx.send(f"I chose {comp}, You win!")
         else:
             await ctx.send(f"I chose {comp}, I win!")
-    elif arg == "scissors":
+    elif arg.lower == "scissors":
         if comp == "paper":
             await ctx.send(f"I chose {comp}, You win!")
         else:
             await ctx.send(f"I chose {comp}, I win!")
+
+    else:
+            await ctx.sent(f"You did that wrong.. its rock, paper, or scissors bozo,")
 
 
 @client.command()
