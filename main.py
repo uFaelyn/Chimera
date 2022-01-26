@@ -253,6 +253,19 @@ async def yn(ctx):
         await ctx.send("Always")
 
 
+@client.command()
+async def numGuess(ctx):
+        exceptNumber = random.randint(1 , 101)
+
+        embed = discord.Embed(title="Guess the number that is missing!")
+        x = 1
+        while x <= 100:
+                x = x+1
+                if x == exceptNumber:
+                        x = x+1
+                embed.add_field(name=x)
+
+
 @client.event
 async def on_command_error(ctx, error):
 
@@ -284,6 +297,10 @@ async def water():
 @water.before_loop
 async def before_water():
     await client.wait_until_ready()
+
+
+
+
 
 water.start()
 
