@@ -251,22 +251,6 @@ async def yn(ctx):
         await ctx.send("Never")
     if o in range(901, 1001):
         await ctx.send("Always")
-
-
-@client.command()
-async def numguess(ctx):
-        exceptNumber = random.randint(1 , 101)
-
-        embed = discord.Embed(title="Guess the number that is missing!")
-        x = 1
-        print("Check 1")
-        while x <= 100:
-                x = x+1
-                print("Check 2")
-                if x == exceptNumber:
-                        x = x+1
-        embed.add_field(name=x)
-        print("Check 3")
         
 
         ctx.send(embed=embed)
