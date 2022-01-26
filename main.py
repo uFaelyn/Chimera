@@ -263,7 +263,7 @@ async def numGuess(ctx):
                 x = x+1
                 if x == exceptNumber:
                         x = x+1
-                embed.add_field(name=x)
+        embed.add_field(name=x)
         
 
         ctx.send(embed=embed)
