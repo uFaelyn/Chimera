@@ -264,6 +264,9 @@ async def numGuess(ctx):
                 if x == exceptNumber:
                         x = x+1
                 embed.add_field(name=x)
+        
+
+        ctx.send(embed=embed)
 
 
 @client.event
