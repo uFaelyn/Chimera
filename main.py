@@ -3,16 +3,14 @@ import os
 import random
 from discord.ext import tasks, commands
 from time import time
+from Token import Key
 
 songs = ["The sun, the moon, the stars",
          "Painters of the Tempest",
          "The words I never said",
          "Oxalis",
          "Highway to Oblivion",
-         "Play with fire (ft. Yacht Money)",
-         "Love Nwantiti (ah ah ah)",
          "Flowers",
-         "Je te laisserai des mots",
          "Infinity",
          "Galaxy Collapse",
          "Blue Zenith",
@@ -295,4 +293,4 @@ async def before_water():
 water.start()
 
 
-client.run(os.getenv("Key"))
+client.run(Key)
