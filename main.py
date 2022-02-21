@@ -71,7 +71,7 @@ async def on_message(message):
 
     if (mc.id == 909685766244945921) or (any(word in msg for word in spamTriggers)):
         try:
-            with open("../softbans.log", "a", encoding="utf8") as file:
+            with open("./softbans.log", "a", encoding="utf-8") as file:
                 file.write(str(time()) + " ||| MESSAGE BEGIN ||| " +
                            msg + " ||| MESSAGE END |||")
         except:
