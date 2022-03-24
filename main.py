@@ -10,7 +10,6 @@ songs = ["The sun, the moon, the stars",
          "The words I never said",
          "Oxalis",
          "Highway to Oblivion",
-         "Flowers",
          "Infinity",
          "Galaxy Collapse",
          "Blue Zenith",
@@ -26,6 +25,7 @@ client = commands.Bot(command_prefix="-",
 tiktok_beatmaps = ["virginity syndrome"]
 spamTriggers = ["@everyone", "@here"]
 
+mod_role = client.get_role(528156484886855708)
 
 @client.event
 async def on_ready():
@@ -196,7 +196,7 @@ async def tips(ctx):
                     value="This is something largely seen in 2 phases. The first day, and the time when your rank is around 100k. **Stop asking** 'Is ____ good for <insert playtime or rank here>' because it is likely to be entirely normal.", inline=False)
 
     embed.add_field(name="Overcomplicating the game.",
-                    value="I cannot stress this enough. **You are playing a game about clicking circles**. Stop overcomplicating the game, and just play. Skillsets exist but you can focus on that when you get better at the fundementals", inline=False)
+                    value="I cannot stress this enough. **You are playing a game about clicking circles**. Stop overcomplicating the game, and just play.", inline=False)
 
     embed.add_field(name="Trying ridiculous maps.",
                     value="Stop thinking retry spamming 7 stars will make you any better. Challenge yourself, but do not instantly go to 7 stars without even passing a 5 star.", inline=False)
@@ -216,8 +216,11 @@ async def roll(ctx):
 
 @client.command()
 async def say(ctx, *, arg):
-    await ctx.message.delete()
-    await ctx.send(arg)
+    if ctx.author.has_role(mod_role):
+        await ctx.message.delete()
+        await ctx.send(arg)
+    else:
+        return 
 
 
 @client.command(name="2b")
