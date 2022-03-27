@@ -87,6 +87,18 @@ async def on_message(message):
                 await message.delete()
             else:
                 return
+
+        if len(discord.Mentions) < 5:
+                muted_role = discord.utils.get(message.guild.roles, name="Muted")
+                muted_user = message.author
+
+                await muted_user.add_roles(muted_role)
+
+                time.sleep(600)
+
+                await muted_user.remove_roles(muted_role)
+
+
     await client.process_commands(message)
 
 
