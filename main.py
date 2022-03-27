@@ -25,7 +25,6 @@ client = commands.Bot(command_prefix="-",
 tiktok_beatmaps = ["virginity syndrome"]
 spamTriggers = ["@everyone", "@here"]
 
-mod_role = client.get_role(528156484886855708)
 
 @client.event
 async def on_ready():
@@ -227,12 +226,11 @@ async def roll(ctx):
 
 
 @client.command()
+@commands.has_role(528156484886855708)
 async def say(ctx, *, arg):
-    if ctx.author.has_role(mod_role):
-        await ctx.message.delete()
-        await ctx.send(arg)
-    else:
-        return 
+    await ctx.message.delete()
+    await ctx.send(arg)
+
 
 
 @client.command(name="2b")
@@ -279,10 +277,13 @@ async def on_command_error(ctx, error):
         error_message = f"This command is on cooldown!"
 
     elif isinstance(error, commands.MissingPermissions):
-        error_message = f"You do not have permission to use this command!"
+        error_message = f"You don't have the right, o you don't have the right, you don't have the right, in short you don't have the right"
 
     elif isinstance(error, commands.UserInputError):
         error_message = f"You did that wrong bozo."
+
+    elif isinstance(error, commands.MissingRole):
+        error_message = f"You don't have the right, o you don't have the right, you don't have the right, in short you don't have the right"
 
     else:
         error_message = f"Something went wrong.. but I'm not sure what"
