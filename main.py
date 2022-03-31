@@ -24,7 +24,7 @@ client = commands.Bot(command_prefix="-",
 
 tiktok_beatmaps = ["virginity syndrome"]
 spamTriggers = ["@everyone", "@here"]
-botMention = ["<@898815305156001822>"]
+botMention = ["<@898815305156001822>" , "<@!898815305156001822>"]
 
 
 @client.event
@@ -51,18 +51,6 @@ async def on_message(message):
 
     if (any(word in msg for word in tiktok_beatmaps)) or ("where" in msgL and "maps" in msgL):
         await mc.send("All of the beatmaps are very accessible if you read the channel names and use any form of problem solving. <#810996735274254337> Good day :D")
-    
-    if any(word in msg for word in botMention):
-            await mc.send("You summoned me?")
-
-            def check(m):
-                    return m.channel == mc and not m.author == client.user
-
-            nameMsg = await client.wait_for("message", check=check)
-            if any(word in spamTriggers for word in nameMsg.content):
-                    return
-            elif any(word in msgL for word in ["hug"]):
-                    await mc.send(f"Hello {nameMsg.content}!")
 
     if ("where" in msgL) and ("skin" in msgL):
         await mc.send("Do !skin in <#898404919164403732> to get Davolafs skin")
@@ -72,12 +60,17 @@ async def on_message(message):
 
             def check(m):
                     return m.channel == mc and not m.author == client.user
-            if any(word in msgL for word in ["hug"]):
+
+
+            personMsg = await client.wait_for("message", check=check)
+            personMsg_c = personMsg.content
+            
+            if ("hug" in personMsg_c) or ("Hug" in personMsg_c):
                     finalMessage = "<:AnimeCuteHug:818911568334815242>"
             else:
                     finalMessage = "I have no idea what you said. Blame Wind, he's too dumb to predict every message that'll be sent. Fucking loser lmfao"
 
-            mc.send(finalMessage)
+            await mc.send(finalMessage)
 
             
     if (msgL.startswith("hello chimera")) or (msgL.startswith("hi chimera")):
