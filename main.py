@@ -82,6 +82,7 @@ async def on_message(message):
             
     if (msgL.startswith("hello chimera")) or (msgL.startswith("hi chimera")):
         await mc.send("Hello! What is your name?")
+        firstUser = message.author
 
         def check(m):
             return m.channel == mc and not m.author == client.user
@@ -89,6 +90,8 @@ async def on_message(message):
         nameMsg = await client.wait_for("message", check=check)
         if any(word in spamTriggers for word in nameMsg.content):
             return
+        elif message.author != firstUser:
+                return
         else:
             await mc.send(f"Hello {nameMsg.content}!")
 
@@ -114,15 +117,21 @@ async def on_message(message):
             else:
                 return
 
-        if len(discord.Mentions) < 5:
-                muted_role = discord.utils.get(message.guild.roles, name="Muted")
-                muted_user = message.author
+        if len(message.mentions) >= 5:
+                mod_role = discord.utils.get(message.guild.roles, name = "MODS")
+                if mod_role in message.author.roles:
+                        return
 
-                await muted_user.add_roles(muted_role)
+                else:
+                        muted_role = discord.utils.get(message.guild.roles, name="Muted")
+                        muted_user = message.author
 
-                time.sleep(600)
+                        await muted_user.add_roles(muted_role)
+                        await message.delete()
 
-                await muted_user.remove_roles(muted_role)
+                        time.sleep(600)
+
+                        await muted_user.remove_roles(muted_role)
 
 
     await client.process_commands(message)
@@ -335,4 +344,4 @@ async def before_water():
 water.start()
 
 
-client.run(Key)
+client.run(Key, bot=True)
